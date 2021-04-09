@@ -1925,8 +1925,7 @@ int main(){
             clear_akuma(akumaXPosition, akumaYPosition);
             resetDisplay();
             clear_akuma(akumaXPosition, akumaYPosition);
-            akumaYPosition=akumaYPosition-10; //the x and y are inverted because of the image*/
-                
+               if (akumaYPosition-10>ryuYPosition+70)akumaYPosition=akumaYPosition-10;
         }
         // if 'd' is pressed
         else if(key_byte_3 == (char)0x23 && key_byte_2 == (char)0xF0 && key_byte_1 == (char)0x23){
@@ -1956,7 +1955,7 @@ int main(){
             clear_ryu(ryuXPosition, ryuYPosition);
             resetDisplay();
             clear_ryu(ryuXPosition, ryuYPosition);
-            ryuYPosition=ryuYPosition+10; //the x and y are inverted because of the image
+            if (ryuYPosition+10<akumaYPosition-70)ryuYPosition=ryuYPosition+10; //70= Width of akuma + punch width of ryu
         }
         // if up arrow is pressed
         else if (key_byte_3 == (char)0x75 && key_byte_2 == (char)0xF0 && key_byte_1 == (char)0xE0){
@@ -1970,6 +1969,7 @@ int main(){
         
         
       }
+        
 
      }
 }
