@@ -979,7 +979,8 @@ int main(){
       RVALID = PS2_data & 0x8000;
       
       if (gameStarted==1){ //Game already start, we start drawing things
-          clear_screen();
+          //clear_screen();
+		  clear_ryu(ryuXPosition, ryuYPosition);
           drawSprites(selectedAnimation);
           if (selectedAnimation==5){
               selectedAnimation=0;
@@ -999,6 +1000,9 @@ int main(){
         //if 'Enter' is pressed, start the Game.
         if(key_byte_3 == (char)0x5A && key_byte_2 == (char)0xF0 && key_byte_1 == (char)0x5A){
             gameStarted=1;
+			clear_screen(); 
+			resetDisplay();
+			clear_screen(); 
         }
 
         // if 'a' is pressed
@@ -1019,14 +1023,19 @@ int main(){
         }
         // if left arrow is pressed
         else if (key_byte_3 == (char)0x6B && key_byte_2 == (char)0xF0 && key_byte_1 == (char)0xE0){
+			clear_ryu(ryuXPosition, ryuYPosition);
+			resetDisplay(); 
+			clear_ryu(ryuXPosition, ryuYPosition); 
 			ryuXPosition=ryuXPosition+0;
             ryuYPosition=ryuYPosition-10; //the x and y are inverted because of the image
         }
         // if right arrow is pressed
         else if (key_byte_3 == (char)0x74 && key_byte_2 == (char)0xF0 && key_byte_1 == (char)0xE0){
+			clear_ryu(ryuXPosition, ryuYPosition);
+			resetDisplay(); 
+			clear_ryu(ryuXPosition, ryuYPosition); 
             ryuXPosition=ryuXPosition+0;
             ryuYPosition=ryuYPosition+10; //the x and y are inverted because of the image
-
         }
         // if up arrow is pressed
         else if (key_byte_3 == (char)0x75 && key_byte_2 == (char)0xF0 && key_byte_1 == (char)0xE0){
@@ -1095,6 +1104,14 @@ void clear_screen(){
             plot_pixel(x, y, 0xffff);
         }
     }
+}
+
+void clear_ryu(int xPos, int yPos){
+	for(int y = 0; y < 65; y++){
+		for(int x = 0; x < 92; x++){
+			plot_pixel(y + yPos, x + xPos, 0xffff); 
+		} 
+	}  
 }
 
 
