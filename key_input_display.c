@@ -1959,7 +1959,7 @@ int main(){
         }
         // if up arrow is pressed
         else if (key_byte_3 == (char)0x75 && key_byte_2 == (char)0xF0 && key_byte_1 == (char)0xE0){
-            ryuPunchFrame = 1;
+            if(ryuPunchFrame == 0) ryuPunchFrame = 1; // cant start to punch again while already punching
 
         }
         // if down arrow is pressed
