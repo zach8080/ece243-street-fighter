@@ -2283,7 +2283,6 @@ int main(){
           
           if(ryuPunchFrame > 0 && ryuPunchFrame < 4){
               ryuPunchFrame += 1;
-              clear_ryu(ryuXPosition, ryuYPosition);
           }  else {
               ryuPunchFrame = 0;
           }
@@ -2330,9 +2329,11 @@ int main(){
         }
         // if 'd' is pressed
         else if(key_byte_3 == (char)0x23 && key_byte_2 == (char)0xF0 && key_byte_1 == (char)0x23){
-            akumaPreviousX=akumaXPosition;
-            akumaPreviousY=akumaYPosition;
-            if(!akumaDucking) akumaYPosition=akumaYPosition+10; //the x and y are inverted because of the*/
+            if(akumaYPosition<260){
+                akumaPreviousX=akumaXPosition;
+                akumaPreviousY=akumaYPosition;
+                if(!akumaDucking) akumaYPosition=akumaYPosition+10;
+            }
 
         }
         // if 'w' is pressed
@@ -2354,9 +2355,11 @@ int main(){
         }
         // if left arrow is pressed
         else if (key_byte_3 == (char)0x6B && key_byte_2 == (char)0xF0 && key_byte_1 == (char)0xE0){
-            ryuPreviousX=ryuXPosition;
-            ryuPreviousY=ryuYPosition;
-            if(!ryuDucking) ryuYPosition=ryuYPosition-10; //the x and y are inverted because of the image
+            if(ryuYPosition>0){
+                ryuPreviousX=ryuXPosition;
+                ryuPreviousY=ryuYPosition;
+                if(!ryuDucking) ryuYPosition=ryuYPosition-10; //the x and y are inverted because of the image
+            }
         }
         // if right arrow is pressed
         else if (key_byte_3 == (char)0x74 && key_byte_2 == (char)0xF0 && key_byte_1 == (char)0xE0){
