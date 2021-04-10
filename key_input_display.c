@@ -2168,7 +2168,7 @@ void clear_screen(){
 
 void clear_ryu(int xPos, int yPos){
     for(int y = 0; y < 85; y++){
-        for(int x = 0; x < 92; x++){
+        for(int x = 0; x < 100; x++){
             plot_pixel(y + yPos, x + xPos, 0xffff);
         }
     }
@@ -2235,7 +2235,7 @@ void drawSprites(int selectedAnimation){
 	else if (ryuDucking){
 		for (int col=0;col<72;col++){
             for (int row=0;row<85;row++){
-                 plot_pixel(row+ryuYPosition,col+ryuXPosition+20,ryu_duck[col][row]);
+                 plot_pixel(row+ryuYPosition,col+ryuXPosition+25,ryu_duck[col][row]);
             }
         }
 	
