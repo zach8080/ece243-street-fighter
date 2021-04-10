@@ -1868,6 +1868,8 @@ int akumaYPosition=260;
 int ryuHealth = 100; 
 int akumaHealth = 100; 
 
+bool ryuDucking = false; 
+bool akumaDucking = false; 
 
 int main(){
     *(PS2_ptr) = 0xFF;
@@ -1946,7 +1948,8 @@ int main(){
         // if 'w' is pressed
         else if(key_byte_3 == (char)0x1D && key_byte_2 == (char)0xF0 && key_byte_1 == (char)0x1D){
 			
-			if(akumaYPosition-10<ryuYPosition+90){
+			// checking if hitting
+			if(akumaYPosition-10<ryuYPosition+90 && !ryuDucking && !akumaDucking){
 				ryuHealth -= 10; 
 				drawHealth(0); 
 				resetDisplay(); 
@@ -1956,7 +1959,7 @@ int main(){
         }
         // if 's' is pressed
         else if(key_byte_3 == (char)0x1B && key_byte_2 == (char)0xF0 && key_byte_1 == (char)0x1B){
-
+			akumaDucking = !akumaDucking; 
         }
         // if left arrow is pressed
         else if (key_byte_3 == (char)0x6B && key_byte_2 == (char)0xF0 && key_byte_1 == (char)0xE0){
@@ -1974,10 +1977,10 @@ int main(){
         }
         // if up arrow is pressed
         else if (key_byte_3 == (char)0x75 && key_byte_2 == (char)0xF0 && key_byte_1 == (char)0xE0){
-            if(ryuPunchFrame == 0) ryuPunchFrame = 1; // cant start to punch again while already punching
+            if(ryuPunchFrame == 0 && !ryuDucking) ryuPunchFrame = 1; // cant start to punch again while already punching
 			
-			// if hitting
-			if(ryuPunchFrame == 1 && ryuYPosition+10>akumaYPosition-90){
+			// if hitting (can't punch if ducking, and cant hit them if they are ducking)
+			if(ryuPunchFrame == 1 && ryuYPosition+10>akumaYPosition-90 && !akumaDucking && !ryuDucking){
 				akumaHealth -= 10; 
 				drawHealth(1);
 				resetDisplay(); 
@@ -1987,6 +1990,7 @@ int main(){
         }
         // if down arrow is pressed
         else if (key_byte_3 == (char)0x72 && key_byte_2 == (char)0xF0 && key_byte_1 == (char)0xE0){
+			ryuDucking = !ryuDucking;
 
         } 
       }
