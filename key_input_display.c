@@ -1840,6 +1840,7 @@ void initializeGame();
 void displayConfig();
 void plot_pixel(int x, int y,short int color);
 void clear_screen();
+void changeHealth(int character); 
 void swap(int *xp, int *yp);
 void drawMenu();
 void drawSprites();
@@ -1864,7 +1865,8 @@ int ryuPunchFrame = 0;
 int akumaXPosition=135;
 int akumaYPosition=260;
 
-
+int ryuHealth = 100; 
+int akumaHealth = 100; 
 
 
 int main(){
@@ -1872,13 +1874,14 @@ int main(){
     displayConfig(); //Initialize all the configurations of the display
     resetDisplay();
     clear_screen();
-    initializeGame();
     int selectedAnimation=0;
     int gameStarted=0;
     drawMenu();
     resetDisplay();
 
 
+
+	
     while(1) {
 
       PS2_data = *(PS2_ptr); // read the Data register in the PS/2 port
@@ -1918,6 +1921,11 @@ int main(){
             clear_screen();
             resetDisplay();
             clear_screen();
+			
+			initializeGame();
+			resetDisplay(); 
+			initializeGame(); 
+
         }
 
         // if 'a' is pressed
@@ -1937,7 +1945,14 @@ int main(){
         }
         // if 'w' is pressed
         else if(key_byte_3 == (char)0x1D && key_byte_2 == (char)0xF0 && key_byte_1 == (char)0x1D){
-
+			
+			if(akumaYPosition-10<ryuYPosition+90){
+				ryuHealth -= 10; 
+				drawHealth(0); 
+				resetDisplay(); 
+				drawHealth(0); 
+			
+			}
         }
         // if 's' is pressed
         else if(key_byte_3 == (char)0x1B && key_byte_2 == (char)0xF0 && key_byte_1 == (char)0x1B){
@@ -1960,25 +1975,68 @@ int main(){
         // if up arrow is pressed
         else if (key_byte_3 == (char)0x75 && key_byte_2 == (char)0xF0 && key_byte_1 == (char)0xE0){
             if(ryuPunchFrame == 0) ryuPunchFrame = 1; // cant start to punch again while already punching
-
+			
+			// if hitting
+			if(ryuPunchFrame == 1 && ryuYPosition+10>akumaYPosition-90){
+				akumaHealth -= 10; 
+				drawHealth(1);
+				resetDisplay(); 
+				drawHealth(1); 
+				
+			}
         }
         // if down arrow is pressed
         else if (key_byte_3 == (char)0x72 && key_byte_2 == (char)0xF0 && key_byte_1 == (char)0xE0){
 
-        }
-        
-        
+        } 
       }
-        
-
      }
 }
 
 
+void drawHealth(int character){
+	if(character == 0) { // ryu
+		for(int i = 0; i < ((100-ryuHealth)/10)*14; i++){
+			for(int j = 6; j < 15; j++){
+				plot_pixel(149-i, j, 0x0000); 
+			}
+		}
+		
+	} else { // akuma
+		for(int i = 0; i < ((100-akumaHealth)/10)*14; i++){
+			for(int j = 6; j < 15; j++){
+				plot_pixel(171+i, j, 0x0000); 
+			}
+		}
+	}
+}
+
 void initializeGame(){
     //Initialize game variables here
-    printf("Initialized");
     
+	for(int i = 10; i < 151; i++){
+		plot_pixel(i, 5, 0x0000); 
+		plot_pixel(i, 15, 0x0000);
+	}
+	
+	for(int i = 170; i < 311; i++){
+		plot_pixel(i, 5, 0x0000);
+		plot_pixel(i, 15, 0x0000); 
+	}
+	
+	for(int i = 5; i < 15; i++){
+		plot_pixel(10, i, 0x0000); 
+		plot_pixel(150, i, 0x0000); 
+		plot_pixel(170, i, 0x0000); 
+		plot_pixel(310, i, 0x0000); 	
+	}
+	
+	for(int i = 0; i < 139; i++){
+		for(int j = 6; j < 15; j++){
+			plot_pixel(i+11, j, 0xF800); 
+			plot_pixel(i+171, j, 0xF800); 
+		}
+	}
 }
 
 
@@ -2188,7 +2246,6 @@ void drawAkuma(int selectedAnimation){
                 }
             }
         break;
-    }
-    
+    }   
 }
 
