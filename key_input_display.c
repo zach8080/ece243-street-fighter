@@ -3013,7 +3013,7 @@ void endGame(){
     else{ //Ryu's death
         for (int col=0;col<60;col++){
             for (int row=0;row<100;row++){
-                plot_pixel(row+115,col+1,ryudead[col][row]); //center of display
+                plot_pixel(row+115,col+150,ryudead[col][row]); //center of display
                   }
                 }
     }
